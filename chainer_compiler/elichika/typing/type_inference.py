@@ -667,7 +667,10 @@ class InferenceEngine():
         if isinstance(node.op, gast.Invert):
             pass
         elif isinstance(node.op, gast.Not):
-            pass
+            ty_expr = self.infer_expr(node.operand)
+            if isinstance(ty_expr, TyNum) and ty_expr.value is not None:
+                return type_of_value(not ty_expr.value)
+            return TyBool()
         elif isinstance(node.op, gast.UAdd):
             pass
         elif isinstance(node.op, gast.USub):
